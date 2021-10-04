@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { BrowserRouter, Link, Route, Switch } from 'react-router-dom'
 import ToDoList from './feature/ToDoList'
 
-function App() {
+function App() { 
 
   return (
     <div className="App">
@@ -14,12 +14,14 @@ function App() {
         </nav>
       </header>
       
-      <body>
+      <div id="body">
         <Switch>
-          <Route path="/" exact >Main 화면입니다.</Route>
+          <Route path="/" exact >
+            반갑습니다.
+          </Route>
           <Route path="/todolist" component={ToDoList} />
         </Switch>
-      </body>
+      </div>
       </BrowserRouter>
     </div>
   )
