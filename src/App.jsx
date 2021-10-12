@@ -1,29 +1,35 @@
 import { useState } from 'react'
-import { BrowserRouter, Link, Route, Switch } from 'react-router-dom'
-import ToDoList from './feature/ToDoList'
+import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom'
+import { RecoilRoot, selector, atom, useRecoilState, useRecoilValue} from 'recoil'
+import ToDoList from './feature/ToDoList';
+import Login from './feature/Login'
 
 function App() { 
 
   return (
-    <div className="App">
-      <BrowserRouter>
-      <header>
-        <nav>
-          <Link to="/" >Home</Link>
-          <Link to="/todolist" >ToDoList</Link>
-        </nav>
-      </header>
-      
-      <div id="body">
-        <Switch>
-          <Route path="/" exact >
-            반갑습니다.
-          </Route>
-          <Route path="/todolist" component={ToDoList} />
-        </Switch>
+    <RecoilRoot>
+      <div className="App">
+        <Router>
+        <header>
+          <nav>
+            <Link to="/home" >Home</Link>
+            <Link to="/" >TodoList</Link>
+            <Link to="/login" >Login</Link>
+          </nav>
+        </header>
+        
+        <div id="body">
+          <Switch>
+            <Route path="/home" exact >
+              반갑습니다.
+            </Route>
+            <Route path="/" component={ToDoList} />
+            <Route path="/login" component={Login} />
+          </Switch>
+        </div>
+        </Router>
       </div>
-      </BrowserRouter>
-    </div>
+    </RecoilRoot>
   )
 }
 
