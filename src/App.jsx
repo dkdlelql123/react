@@ -14,8 +14,9 @@ function App() {
           <nav>
             <Link to="/home" >Home</Link>
             <Link to="/" >TodoList</Link>
-            <Link to="/login" >Login</Link>
+            <Link to="/login" >Login</Link> 
           </nav>
+          <h1 className="p-4">Title</h1>
         </header>
         
         <div id="body">
