@@ -7,8 +7,12 @@ const ToDoForm = ({newToDoTitle, setNewToDoTitle,btnAddToDoList}) => {
     placeholder="할일을 작성해주세요"
     value={newToDoTitle}
     onChange={ (e)=> setNewToDoTitle(e.target.value) }
+    className="input"
   /> 
-  <button onClick={btnAddToDoList} >할일추가</button>
+  <button 
+    onClick={btnAddToDoList} 
+    className="btn btn-outline"
+  >할일추가</button>
 </div>
 }
 
