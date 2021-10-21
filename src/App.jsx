@@ -4,12 +4,12 @@ import { RecoilRoot, selector, atom, useRecoilState, useRecoilValue} from 'recoi
 import ToDoList from './feature/ToDoList';
 import Login from './feature/Login'
 
-function App() { 
+const App = () => { 
 
   return (
     <RecoilRoot>
       <div className="App">
-        <div className="min-h-screen bg-gradient-to-b from-blue-400 to-green-300">
+        <div className="min-h-screen bg-gradient-to-b from-purple-400 to-blue-400 ">
           <Router>
           <header className="navbar flex-col">
             <nav className="flex">

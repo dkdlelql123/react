@@ -1,24 +1,27 @@
 import { useState } from "react"
 
 const ToDoForm = ({newToDoTitle, setNewToDoTitle,btnAddToDoList}) => {
-  return <div id="toDoListForm" >
+  return <div 
+  id="toDoListForm" 
+  className="flex items-center justify-center"
+  >
   <input 
     type="text"
     placeholder="할일을 작성해주세요"
     value={newToDoTitle}
     onChange={ (e)=> setNewToDoTitle(e.target.value) }
-    className="input"
+    className="input input-md"
   /> 
   <button 
     onClick={btnAddToDoList} 
-    className="btn btn-outline"
+    className="btn btn-md ml-2 btn-primary"
   >할일추가</button>
 </div>
 }
 
 const ToDoLists = ({todos, btnDeleteToDoList, btnchangeToDoList}) => {
   return <div id="toDoList">
-  <ul>
+  <ul className="flex flex-col items-center mt-8">
   {
     todos.map( todo => <ToDoItem 
       key={todo.id} 
@@ -45,12 +48,21 @@ const ToDoItem = ({todo, btnDeleteToDoList, btnchangeToDoList}) => {
     setTitle(todo.title)
   }
 
-  return <li>
-  <span>{todo.id}. </span>
+  const btnStyle="text-white border border-white rounded py-1 px-1 ml-2 text-sm hover:bg-white hover:text-black transition duration-400";
+
+  return <li className="mb-2 w-4/12">
+  <span className="text-white">{todo.id}. </span>
   {editMode == false ? (
     <>
-      <strong>{todo.title}</strong>
-      <button onClick={ () => setEditMode(true) }>수정</button>
+      <strong className="text-white" >{todo.title}</strong>
+      <button 
+      onClick={ () => setEditMode(true) }
+      className={btnStyle}
+      >수정</button>
+      <button
+      onClick={ () => btnDeleteToDoList(todo.id) }
+      className={btnStyle}
+      >삭제</button>
     </>
   ) : (
     <>
@@ -58,13 +70,18 @@ const ToDoItem = ({todo, btnDeleteToDoList, btnchangeToDoList}) => {
         type="text"
         value={title}
         onChange={(e)=>setTitle(e.target.value) }
+        className="input input-sm"
         />
-      <button onClick={ btnEditModeChangeClicked } >수정완료</button>
-      <button onClick={ btnEditModeCancleClicked } >수정취소</button>
+      <button 
+      onClick={ btnEditModeChangeClicked }
+      className={btnStyle}
+       >수정완료</button>
+      <button 
+      onClick={ btnEditModeCancleClicked } 
+      className={btnStyle}
+      >수정취소</button>
     </>
   ) }
-
-  <button onClick={ () => btnDeleteToDoList(todo.id) }>삭제</button>
 </li> 
 }
 
