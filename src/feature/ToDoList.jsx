@@ -1,4 +1,5 @@
-import { useState, useMemo } from "react"
+import { useState } from "react"
+import { atom, useRecoilState} from 'recoil'
 
 const ToDoForm = ({newToDoTitle, setNewToDoTitle,btnAddToDoList}) => {
   return <div 
@@ -19,9 +20,7 @@ const ToDoForm = ({newToDoTitle, setNewToDoTitle,btnAddToDoList}) => {
 </div>
 }
 
-const ToDoLists = ({todos, btnDeleteToDoList, btnchangeToDoList}) => {
-  
-  console.log(todos.map( (el,i)=> console.log(el,i) ));
+const ToDoLists = ({todos, btnDeleteToDoList, btnchangeToDoList}) => { 
   
   return <div id="toDoList">
     
@@ -31,7 +30,7 @@ const ToDoLists = ({todos, btnDeleteToDoList, btnchangeToDoList}) => {
   <ul className="flex flex-col-reverse items-center mt-8">
   {
     todos.map( (todo, i) => <ToDoItem 
-      key={todo.id} 
+      key={i} 
       num={i}
       todo={todo} 
       btnDeleteToDoList={btnDeleteToDoList}
@@ -71,7 +70,7 @@ const ToDoItem = ({num, todo, btnDeleteToDoList, btnchangeToDoList}) => {
       <button
       onClick={ () => {
         btnDeleteToDoList(todo.id);
-        console.log(todo.id)
+        // console.log(todo.id)
       } }
       className={btnStyle}
       >삭제</button>
@@ -97,12 +96,18 @@ const ToDoItem = ({num, todo, btnDeleteToDoList, btnchangeToDoList}) => {
 </li> 
 }
 
+const todosState = atom({
+  key: 'todosState',  
+  default: [], 
+});
+
 const ToDoList = () => { 
-  const [newToDoTitle, setNewToDoTitle] = useState();
+  const [newToDoTitle, setNewToDoTitle] = useState("");
   const [lastTodoId, setLastTodoId]  = useState(0);
-  const [todos, setTodos] = useState([]); 
+  const [todos, setTodos] = useRecoilState(todosState); 
 
   const btnAddToDoList = () => { 
+    if(!newToDoTitle) return;
     const newTodo = {
       id: lastTodoId,
       title:newToDoTitle      
@@ -123,7 +128,7 @@ const ToDoList = () => {
   }
 
   const btnDeleteToDoList = (deleteIdx) =>{
-    console.log(deleteIdx)
+    // console.log(deleteIdx)
     setTodos( todos.filter((el, i) => el.id != deleteIdx ) )
   }
 
