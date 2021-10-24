@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useMemo } from "react"
 
 const ToDoForm = ({newToDoTitle, setNewToDoTitle,btnAddToDoList}) => {
   return <div 
@@ -20,11 +20,19 @@ const ToDoForm = ({newToDoTitle, setNewToDoTitle,btnAddToDoList}) => {
 }
 
 const ToDoLists = ({todos, btnDeleteToDoList, btnchangeToDoList}) => {
+  
+  console.log(todos.map( (el,i)=> console.log(el,i) ));
+  
   return <div id="toDoList">
-  <ul className="flex flex-col items-center mt-8">
+    
+  {todos.length === 0 && <h3
+   className="flex justify-center text-white my-6 font-bold"
+  >할일을 작성해주세요.</h3>}
+  <ul className="flex flex-col-reverse items-center mt-8">
   {
-    todos.map( todo => <ToDoItem 
+    todos.map( (todo, i) => <ToDoItem 
       key={todo.id} 
+      num={i}
       todo={todo} 
       btnDeleteToDoList={btnDeleteToDoList}
       btnchangeToDoList={btnchangeToDoList}
@@ -34,7 +42,7 @@ const ToDoLists = ({todos, btnDeleteToDoList, btnchangeToDoList}) => {
 </div>
 }
 
-const ToDoItem = ({todo, btnDeleteToDoList, btnchangeToDoList}) => {
+const ToDoItem = ({num, todo, btnDeleteToDoList, btnchangeToDoList}) => {
   const [title, setTitle] = useState(todo.title);
   const [editMode, setEditMode] = useState(false);
 
@@ -46,12 +54,13 @@ const ToDoItem = ({todo, btnDeleteToDoList, btnchangeToDoList}) => {
   const btnEditModeCancleClicked = () => {
     setEditMode(false);
     setTitle(todo.title)
-  }
+  } 
 
   const btnStyle="text-white border border-white rounded py-1 px-1 ml-2 text-sm hover:bg-white hover:text-black transition duration-400";
 
-  return <li className="mb-2 w-4/12">
-  <span className="text-white">{todo.id}. </span>
+  return <li className="mb-2 flex items-center justify-start w-6/12">
+  <span className="text-white">{num}_</span>
+  &nbsp;
   {editMode == false ? (
     <>
       <strong className="text-white" >{todo.title}</strong>
@@ -60,7 +69,10 @@ const ToDoItem = ({todo, btnDeleteToDoList, btnchangeToDoList}) => {
       className={btnStyle}
       >수정</button>
       <button
-      onClick={ () => btnDeleteToDoList(todo.id) }
+      onClick={ () => {
+        btnDeleteToDoList(todo.id);
+        console.log(todo.id)
+      } }
       className={btnStyle}
       >삭제</button>
     </>
@@ -86,26 +98,19 @@ const ToDoItem = ({todo, btnDeleteToDoList, btnchangeToDoList}) => {
 }
 
 const ToDoList = () => { 
-  console.clear();
   const [newToDoTitle, setNewToDoTitle] = useState();
   const [lastTodoId, setLastTodoId]  = useState(0);
-  const [todos, setTodos] = useState([
-    {
-      id:0,
-      title:'알라랄라라라'
-    }
-  ]);
+  const [todos, setTodos] = useState([]); 
 
-  const btnAddToDoList = () => {
-    console.log(newToDoTitle);
+  const btnAddToDoList = () => { 
     const newTodo = {
-      id: lastTodoId+1,
+      id: lastTodoId,
       title:newToDoTitle      
     }
 
     setTodos([...todos, newTodo]);
     setNewToDoTitle('');
-    setLastTodoId(newTodo.id);
+    setLastTodoId(newTodo.id + 1);
   }
 
   const btnchangeToDoList = (changeIdx, newText) =>{
@@ -115,16 +120,14 @@ const ToDoList = () => {
     }
 
     setTodos( todos.map((el, i) => i == changeIdx ? newTodo : el ) )
-    // setLastTodoId(lastTodoId - 1);
   }
 
   const btnDeleteToDoList = (deleteIdx) =>{
-    setTodos( todos.filter((el, i) => i != deleteIdx ) )
-    // setLastTodoId(lastTodoId - 1);
+    console.log(deleteIdx)
+    setTodos( todos.filter((el, i) => el.id != deleteIdx ) )
   }
 
   return <>
-    {todos.length === 0 && <h3>할일을 작성해주세요.</h3>}
     
     <ToDoForm 
       newToDoTitle={newToDoTitle} 
