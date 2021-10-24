@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom'
 import ToDoList from './feature/ToDoList';
 import Login from './feature/Login'
+import Pokemon from './feature/pokemon/Pokemon'
+import PokemonDetail from './feature/pokemon/PokemonDetail'
 
 const App = () => {  
   return (
@@ -11,10 +13,10 @@ const App = () => {
         <header className="navbar flex-col">
           <nav className="flex">
             <Link className="text-lg text-white mr-4 uppercase" to="/home" >Home</Link>
-            <Link className="text-lg text-white mr-4 uppercase" to="/" >TodoList</Link>
-            <Link className="text-lg text-white uppercase" to="/login" >Login</Link> 
-          </nav>
-          {/* <h1  className="flex justify-center ">Title</h1> */}
+            <Link className="text-lg text-white mr-4 uppercase" to="/login" >Login</Link> 
+            <Link className="text-lg text-white mr-4 uppercase" to="/todolist" >TodoList</Link>
+            <Link className="text-lg text-white uppercase" to="/" >Pokemon</Link> 
+          </nav> 
         </header>
         
         <div id="body">
@@ -22,9 +24,11 @@ const App = () => {
             <Route path="/home" exact >
               반갑습니다.
             </Route>
-            <Route path="/" component={ToDoList} />
-            <Route path="/login" component={Login} />
-          </Switch>
+            <Route path="/login" component={Login} /> 
+            <Route path="/todolist" component={ToDoList}/>
+            <Route path="/pokemon/detail" component={PokemonDetail}/>
+            <Route path="/" component={Pokemon}/>
+          </Switch>`
         </div>
         </Router>
       </div>
