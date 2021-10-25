@@ -2,13 +2,17 @@ import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
   
-const pokeAPI = 'https://pokeapi.co/api/v2/ability/';
+const pokeAPI = 'https://pokeapi.co/api/v2/pokemon';
+
 
 const PokemonList = () => {
   const [pokemons, setPokemons] = useState([]);
-  const pokemonTotal = 327;
-  const { isLoading, error, data } = useQuery('pokeData', () =>
-  fetch(pokeAPI).then(res =>
+  const pokemonTotal = 1118;
+  const maxPokemonInAPage = 20;
+  const offset = 0;
+  const [limit, setLimit] = useState(20);
+  const { isLoading, error, data } = useQuery(`pokeData?offset=${offset}&limit=${limit}`, () =>
+  fetch(`${pokeAPI}?offset=${offset}&limit=${limit}`).then(res =>
     res.json()
   )
 )
@@ -21,14 +25,22 @@ const getParamsUrl = (url) => {
   return parseInt(path[path.length-2]);
 }
 
+const btnPokemonMore = () => {
+  console.log("more"); 
+  setLimit( limit + maxPokemonInAPage >= pokemonTotal ? pokemonTotal : limit + maxPokemonInAPage);
+}
+
   return <>
-    <ul className="container mx-auto flex flex-wrap justify-between">
+    <ul className="container max-w-lg mx-auto flex flex-wrap justify-between">
       {data.results.map(
         (el)=> {
           let id = getParamsUrl(el.url);
           console.log(id)
 
-          return <li className="inline-flex flex-col w-5/12 items-center bg-white rounded bg-opacity-50 mb-2">
+          return <li 
+          className="inline-flex flex-col w-5/12 items-center bg-white rounded bg-opacity-50 mb-2 "
+          key={el.name}
+          >
           <Link to={`/pokemon/detail?id=${id}`}>
             <div> 
             <img 
@@ -45,6 +57,10 @@ const getParamsUrl = (url) => {
       )}
       
     </ul>
+    <button 
+    className="btn btn-sm btn-primary"
+    onClick={btnPokemonMore}
+    >more</button>
   </>
 }
 
