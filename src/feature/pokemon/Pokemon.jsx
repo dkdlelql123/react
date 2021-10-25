@@ -1,13 +1,14 @@
 import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
+import cn from 'classnames';
   
 const pokeAPI = 'https://pokeapi.co/api/v2/pokemon';
 
 
 const PokemonList = () => {
   const [pokemons, setPokemons] = useState([]);
-  
+
   const pokemonTotal = 1118;
   const maxPokemonInAPage = 20;
   const offset = 0;
@@ -61,7 +62,14 @@ const btnPokemonMore = () => {
       
     </ul>
     <button 
-    className={`btn btn-sm btn-info ${isLoading && 'loading'}`}
+    className={cn(
+      'btn',
+      'btn-block',
+      'btn-primary', 
+      'sticky', 
+      'bottom-0',
+      {loading : isLoading}
+      )} 
     onClick={btnPokemonMore}
     >more</button>
     </>
