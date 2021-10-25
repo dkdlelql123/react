@@ -7,19 +7,24 @@ const pokeAPI = 'https://pokeapi.co/api/v2/pokemon';
 
 const PokemonList = () => {
   const [pokemons, setPokemons] = useState([]);
+  
   const pokemonTotal = 1118;
   const maxPokemonInAPage = 20;
   const offset = 0;
   const [limit, setLimit] = useState(20);
+
   const { isLoading, error, data } = useQuery(`pokeData?offset=${offset}&limit=${limit}`, () =>
   fetch(`${pokeAPI}?offset=${offset}&limit=${limit}`).then(res =>
     res.json()
   )
 )
 
-if (isLoading) return 'Loading...' 
 if (error) return 'An error has occurred: ' + error.message
- 
+
+if( !isLoading && pokemons.length < limit ){
+  setPokemons([...pokemons, ...data.results]);
+}
+
 const getParamsUrl = (url) => {
   let path = url.split('/');
   return parseInt(path[path.length-2]);
@@ -32,14 +37,12 @@ const btnPokemonMore = () => {
 
   return <>
     <ul className="container max-w-lg mx-auto flex flex-wrap justify-between">
-      {data.results.map(
-        (el)=> {
-          let id = getParamsUrl(el.url);
-          console.log(id)
-
+      {pokemons.map(
+        (el, idx)=> {
+          let id = getParamsUrl(el.url); 
           return <li 
+          key={idx}
           className="inline-flex flex-col w-5/12 items-center bg-white rounded bg-opacity-50 mb-2 "
-          key={el.name}
           >
           <Link to={`/pokemon/detail?id=${id}`}>
             <div> 
@@ -48,7 +51,7 @@ const btnPokemonMore = () => {
               alt={el.name}
               />
             </div>
-            <div className="font-bold">
+            <div className="font-bold text-center">
               {el.name}
             </div>
           </Link>
@@ -58,10 +61,10 @@ const btnPokemonMore = () => {
       
     </ul>
     <button 
-    className="btn btn-sm btn-primary"
+    className={`btn btn-sm btn-info ${isLoading && 'loading'}`}
     onClick={btnPokemonMore}
     >more</button>
-  </>
+    </>
 }
 
 const Pokemon = () => {

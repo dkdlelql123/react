@@ -28,7 +28,7 @@ const App = () => {
             <Route path="/todolist" component={ToDoList}/>
             <Route path="/pokemon/detail" component={PokemonDetail}/>
             <Route path="/" component={Pokemon}/>
-          </Switch>`
+          </Switch>
         </div>
         </Router>
       </div>
