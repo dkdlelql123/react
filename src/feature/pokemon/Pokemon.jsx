@@ -68,6 +68,8 @@ const btnPokemonMore = () => {
       'btn-primary', 
       'sticky', 
       'bottom-0',
+      'transition',
+      'duration-300',
       {loading : isLoading}
       )} 
     onClick={btnPokemonMore}
@@ -82,12 +84,12 @@ const Pokemon = () => {
       <li>[o]포켓몬 리스트 가져오기 - react query, npm i react-query</li>
       <li>[o]포켓몬 사진 가져오기 - jsdelivr gh</li>
       <li>[o]tailwind, daisyUI 이용해서 UI</li>
-      <li>포켓몬 MORE 버튼, 로딩 바</li>
+      <li>[o]포켓몬 MORE 버튼, 로딩 바</li>
       <li>[o]상세 페이지 만들기, 연결 - react-router-dom</li>
       <li>[o]tailwind, daisyUI 이용해서 UI</li>
-      <li>뒤로가기</li>
-      <li>이미지, 상세 정조 불러오기</li>
-      <li>검색기능</li>
+      <li>[]뒤로가기</li>
+      <li>[]이미지, 상세 정조 불러오기</li>
+      <li>[]검색기능</li>
     </ul>
     
       <PokemonList />
